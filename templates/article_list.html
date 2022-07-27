@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% block title %}Articles{% endblock %}
+
+{% block content %}
+{% for article in articles %}
+<div class="card">
+    <div class="card-header">
+        <span class="font-weight-bold">{{ article.title }}</span> &middot;
+        <span class="text-muted"> by {{ article.author }}|{{article.date}}</span>
+    </div>
+
+    <div class="card-body">
+        <img class="rounded float-left" src="{{ article.img.url }}" width="450px" height="300px">
+        {{article.body}}
+    </div>
+    <div class="card-footer text-center text-muted">
+        <a href="{% url 'article_edit' article.pk %}">Edit</a>|
+        <a href="{% url 'article_delete' article.pk %}">Delete</a>
+
+    </div>
+    <div class = "card-footer bg-secondary shadow p-3 mb-5 bg-white rounded">
+        {% for comment in article.comments.all %}
+        <p class="border">
+            <span class = "font-weight-bod">
+                {{comment.author}}: &middot
+            </span>
+            {{comment}}
+        </p>
+        {% endfor %}
+         <a class="btn btn-outline-primary" href="{% url 'create_comments' pk=article.id %}"  name = "{{ article.id }}"role="button">Add comment</a>
+    </div>
+</div>
+
+<br>
+{% endfor %}
+
+{% endblock content%}

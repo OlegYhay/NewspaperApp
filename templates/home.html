@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Home {% endblock %}
+{% block content %}
+  <div class="jumbotron">
+      <h1 class="display-4">Newspaper app</h1>
+      <p class="lead">A Newspaper website built with Django</p>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'article_list'%}"
+        role="button">View All Articles</a>
+          <a class="btn btn-primary btn-lg" href="{% url 'about_us'%}"
+        role="button">About us</a>
+      </p>
+  </div>
+
+{% for article in articles %}
+<div class="card">
+    <div class="card-header">
+        <span class="font-weight-bold">{{ article.title }}</span> &middot;
+        <span class="text-muted"> by {{ article.author }}|{{article.date}}</span>
+    </div>
+    <img class="rounded float-left" src="{{ article.img.url }}" width="450px" height="300px">
+    <div class="card-body">
+        {{article.body}}
+    </div>
+    <div class = "card-footer">
+        {% for comment in article.comments.all %}
+        <p>
+            <span class = "font-weight-bod">
+                {{comment.author}} &middot
+            </span>
+            {{comment}}
+        </p>
+        {% endfor %}
+    </div>
+</div>
+<br>
+{% endfor %}
+{% endblock %}
